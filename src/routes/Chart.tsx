@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface IHistorical {
   time_open: string;
@@ -17,6 +19,7 @@ interface ChartProps {
   coinId: string;
 }
 function Chart({ coinId }: ChartProps) {
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
     fetchCoinHistory(coinId)
   );
@@ -26,23 +29,32 @@ function Chart({ coinId }: ChartProps) {
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
               name: "Price",
-              data: data?.map((price) => price.close) ?? [],
+              data: data?.map((price) => price.open) ?? [],
             },
           ]}
+          /*series={[
+            {
+              data: data?.map((price) => {
+                return [
+                  price.time_close,
+                  price.open,
+                  price.high,
+                  price.low,
+                  price.close,
+                ];
+              }),
+            },
+          ]}*/
           options={{
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             chart: {
               height: 300,
-              width: 500,
-              toolbar: {
-                show: false,
-              },
               background: "transparent",
             },
             grid: { show: false },
@@ -51,11 +63,13 @@ function Chart({ coinId }: ChartProps) {
               width: 4,
             },
             yaxis: {
-              show: false,
+              tooltip: {
+                enabled: true,
+              },
             },
             xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
+              axisBorder: { show: true },
+              axisTicks: { show: true },
               labels: { show: false },
               type: "datetime",
               categories: data?.map((price) => price.time_close),
@@ -69,6 +83,10 @@ function Chart({ coinId }: ChartProps) {
               y: {
                 formatter: (value) => `$${value.toFixed(2)}`,
               },
+            },
+            title: {
+              text: "CandleStick Chart",
+              align: "center",
             },
           }}
         />

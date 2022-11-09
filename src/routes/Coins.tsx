@@ -58,6 +58,12 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const Button = styled.button`
+  display: flex;
+  background-color: tomato;
+  border-radius: 5px;
+`;
+
 interface ICoin {
   id: string;
   name: string;
@@ -86,7 +92,7 @@ function Coins() {
     <Container>
       <Header>
         <Title>코인</Title>
-        <button onClick={toggleDarkAtom}>Toggle</button>
+        <Button onClick={toggleDarkAtom}>Dark Mode</Button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

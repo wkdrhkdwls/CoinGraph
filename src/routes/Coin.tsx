@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 import {
   Switch,
   Route,
@@ -28,7 +28,7 @@ const Container = styled.div`
 const Header = styled.header`
   height: 15vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 const Overview = styled.div`
@@ -73,6 +73,14 @@ const Tab = styled.span<{ isActive: boolean }>`
     display: block;
   }
 `;
+
+const Button = styled.button`
+  margin-top: auto;
+  font-size: 10px;
+  background-color: gray;
+  border-radius: 5px;
+`;
+
 interface RouteParams {
   coinId: string;
 }
@@ -163,6 +171,15 @@ function Coin({}: ICoinProps) {
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <Button>
+          <Link
+            to={{
+              pathname: `/`,
+            }}
+          >
+            Back TO Main
+          </Link>
+        </Button>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

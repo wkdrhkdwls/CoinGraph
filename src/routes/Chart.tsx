@@ -55,6 +55,7 @@ function Chart({ coinId }: ChartProps) {
             },
             chart: {
               height: 300,
+              type: "candlestick",
               background: "transparent",
             },
             grid: { show: false },

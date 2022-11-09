@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -73,8 +72,6 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-
-interface ICoinsProps {}
 
 function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
